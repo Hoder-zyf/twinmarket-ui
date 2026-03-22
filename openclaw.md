@@ -256,8 +256,8 @@
 - 重构市场类型：`src/lib/market/types.ts`
   - 从单一指数 quote 扩展到 constituent quote / breadth / turnover / movers / overview
 - 重构市场服务：`src/lib/market/sse50.ts`
-  - 主源：Eastmoney 批量接口
-  - fallback：Sina 批量接口
+  - 当前可用主源：Tencent 批量接口
+  - fallback：Eastmoney 批量接口、Sina 批量接口
   - 对 50 只成分股逐批抓取、校验、聚合
   - 生成统一 `Sse50MarketOverview`
 - 更新 API route：`src/app/api/market/sse50/route.ts`
@@ -276,7 +276,8 @@
   - `npm run lint` 通过
   - `npm run build` 通过
   - 本地 `npm run dev` 可起服务
-  - 本地请求 `/api/market/sse50` 时，在当前环境下上游 Eastmoney/Sina 出现 fetch failed / timeout，因此返回的是**结构化 502 错误**；说明路由错误处理正常，但当前环境对上游数据源访问不稳定
+  - 本地请求 `/api/market/sse50` 实测成功：返回 `source=tencent`、`count=50` 的完整上证50成分股 overview
+  - 额外排查记录：当前环境下 Eastmoney 返回 empty reply、Sina 返回 forbidden，因此改为 Tencent 为主源以保证可用性
 - 同步更新：
   - `plan.md` 中 Step 10 已打勾并补充完成摘要
   - `plan.md` 决策日志已追加 Step 10 结论

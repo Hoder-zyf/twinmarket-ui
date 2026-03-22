@@ -503,6 +503,7 @@ function formatTimestamp(value: string): string {
   }).format(date);
 }
 
-function formatSourceLabel(source: "eastmoney" | "sina"): string {
+function formatSourceLabel(source: "tencent" | "eastmoney" | "sina"): string {
+  if (source === "tencent") return "Tencent batch";
   return source === "eastmoney" ? "Eastmoney batch" : "Sina fallback";
 }

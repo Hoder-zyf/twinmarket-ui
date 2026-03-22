@@ -1,4 +1,4 @@
-export type MarketQuoteSource = "eastmoney" | "sina";
+export type MarketQuoteSource = "tencent" | "eastmoney" | "sina";
 
 export type MarketConstituent = {
   code: string;

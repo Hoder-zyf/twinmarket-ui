@@ -15,6 +15,7 @@ import type {
 const REQUEST_TIMEOUT_MS = 4_500;
 const EASTMONEY_BATCH_SIZE = 25;
 const SINA_BATCH_SIZE = 30;
+const TENCENT_BATCH_SIZE = 40;
 const LIST_SNAPSHOT_SIZE = 8;
 const MOVERS_SIZE = 5;
 
@@ -33,6 +34,7 @@ class MarketDataError extends Error {
 }
 
 const adapters: QuoteAdapter[] = [
+  { source: "tencent", fetchQuotes: fetchQuotesFromTencent },
   { source: "eastmoney", fetchQuotes: fetchQuotesFromEastmoney },
   { source: "sina", fetchQuotes: fetchQuotesFromSina },
 ];
@@ -51,6 +53,80 @@ export async function getSse50Overview(): Promise<Sse50MarketOverview> {
   }
 
   throw new MarketDataError(`All SSE 50 constituent adapters failed. ${failures.join(" | ")}`);
+}
+
+async function fetchQuotesFromTencent(): Promise<MarketConstituentQuote[]> {
+  const quotes = (
+    await Promise.all(
+      chunk(SSE50_CONSTITUENTS, TENCENT_BATCH_SIZE).map((batch) => fetchTencentBatch(batch)),
+    )
+  ).flat();
+
+  return ensureCompleteUniverse(quotes, "Tencent");
+}
+
+async function fetchTencentBatch(
+  batch: readonly MarketConstituent[],
+): Promise<MarketConstituentQuote[]> {
+  const response = await fetch(
+    `https://qt.gtimg.cn/q=${batch.map((constituent) => constituent.sinaSymbol).join(",")}`,
+    {
+      cache: "no-store",
+      headers: {
+        ...defaultRequestHeaders,
+        Referer: "https://gu.qq.com/",
+      },
+      signal: AbortSignal.timeout(REQUEST_TIMEOUT_MS),
+    },
+  );
+
+  if (!response.ok) {
+    throw new MarketDataError(`Tencent returned ${response.status}`);
+  }
+
+  const rawText = decodeGbk(await response.arrayBuffer());
+  const matches = [...rawText.matchAll(/v_(sh\d+)="([^"]*)";/g)];
+
+  if (!matches.length) {
+    throw new MarketDataError("Unexpected Tencent batch response format");
+  }
+
+  return matches.map((match) => {
+    const symbol = match[1];
+    const fields = match[2].split("~").map((field) => field.trim());
+
+    if (fields.length < 38) {
+      throw new MarketDataError(`Tencent payload is missing expected fields for ${symbol}`);
+    }
+
+    const code = symbol.slice(2);
+    const constituent = getConstituent(code);
+    const latestPrice = parseRequiredNumber(fields[3], "latestPrice");
+    const previousClose = parseRequiredNumber(fields[4], "previousClose");
+    const open = parseRequiredNumber(fields[5], "open");
+    const volumeLots = parseRequiredNumber(fields[6], "volumeLots");
+    const turnoverWan = parseRequiredNumber(fields[37], "turnoverWan");
+    const high = parseRequiredNumber(fields[33], "high");
+    const low = parseRequiredNumber(fields[34], "low");
+    const change = parseRequiredNumber(fields[31], "change");
+    const changePercent = parseRequiredNumber(fields[32], "changePercent");
+
+    return {
+      ...constituent,
+      name: fields[1] || constituent.name,
+      latestPrice,
+      change,
+      changePercent,
+      open,
+      high,
+      low,
+      previousClose,
+      volume: volumeLots * 100,
+      turnover: turnoverWan * 10_000,
+      timestamp: parseTencentTimestamp(fields[30]),
+      source: "tencent",
+    };
+  });
 }
 
 async function fetchQuotesFromEastmoney(): Promise<MarketConstituentQuote[]> {
@@ -339,6 +415,20 @@ function parseEastmoneyTimestamp(value: string | number | null | undefined): str
   }
 
   return new Date(numeric * 1000).toISOString();
+}
+
+function parseTencentTimestamp(value: string | undefined): string {
+  if (value && /^\d{14}$/.test(value)) {
+    const year = value.slice(0, 4);
+    const month = value.slice(4, 6);
+    const day = value.slice(6, 8);
+    const hour = value.slice(8, 10);
+    const minute = value.slice(10, 12);
+    const second = value.slice(12, 14);
+    return new Date(`${year}-${month}-${day}T${hour}:${minute}:${second}+08:00`).toISOString();
+  }
+
+  return new Date().toISOString();
 }
 
 function parseSinaTimestamp(fields: string[]): string {
