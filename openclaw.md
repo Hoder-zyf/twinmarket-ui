@@ -158,3 +158,22 @@
   - `plan.md` 中 Step 5 已打勾并补充完成摘要
   - `plan.md` 决策日志已追加 Step 5 结论
 - 验证：调研文件已写入，计划文件已更新。
+
+### Step 6 调研：其他多智能体模拟项目 UI 实现
+- 新增调研文件：`research/multi-agent-ui-survey.md`
+- 调研并横向比较了：
+  - `joonspk-research/generative_agents`（Smallville）
+  - `liubang1/AgentSims`
+  - `Farama-Foundation/chatarena`
+  - `MAXNORM8650/MedAgentSim`
+  - `chrishokamp/multi-agent-social-simulation`
+- 关键结论：
+  - **Smallville** 最值得借 replay / 世界状态回放思路
+  - **AgentSims** 最值得借 scenario builder / 实验配置器思路
+  - **ChatArena** 更值得借后端抽象，不适合直接借前端
+  - **MedAgentSim** 证明 runtime 与 UI 分离的多 agent 场景化客户端是成立的
+  - TwinMarket UI 后续要补的不是更多卡片，而是 **replay mode + config mode + analytics flow**
+- 同步更新：
+  - `plan.md` 中 Step 6 已打勾并补充完成摘要
+  - `plan.md` 决策日志已追加 Step 6 结论
+- 验证：调研文件已写入，计划文件已更新。

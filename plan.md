@@ -82,7 +82,8 @@
 ## Phase 3: 横向补充调研
 
 ### Step 6: 调研其他多智能体模拟项目的 UI 实现
-- [ ] 目标：除了 MiroFish，看看还有什么多智能体社会模拟项目有好的前端可视化
+- [x] 目标：除了 MiroFish，看看还有什么多智能体社会模拟项目有好的前端可视化
+> 完成时间: 2026-03-23 00:45 | 摘要: 完成对 Generative Agents / Smallville、AgentSims、ChatArena、MedAgentSim、multi-agent-social-simulation 的 UI/可视化形态调研，形成 `research/multi-agent-ui-survey.md`，并提炼出 replay、scenario builder、runtime/UI 解耦等可迁移 pattern。
 - 调研范围：
   - Generative Agents（Stanford 的 "Smallville" 项目）的前端实现
   - AgentSims
@@ -139,3 +140,4 @@
 | 2026-03-23 00:42 | TwinMarket UI 不应只做单页大屏，更应借鉴 MiroFish 的“探索 → 运行 → 分析 → 追问”工作流信息架构。 | `research/mirofish-ui-analysis.md` 中对 GraphPanel、Step3Simulation、Step4Report、Step5Interaction 的代码阅读与结构分析。 |
 | 2026-03-23 00:43 | OASIS 更适合作为 TwinMarket 的分析对象/数据导出参考，而不是前端 UI 组件来源。 | `research/oasis-visualization.md` 中对 OASIS visualization 目录、文档与 network/analysis 脚本的阅读。 |
 | 2026-03-23 00:44 | TwinMarket 后端接口设计应按实体拆分：AgentProfile、Forum、InstrumentSnapshot、Transaction/DailySummary、SimulationConfig，而不是塞成一个大结果对象。 | `research/twinmarket-backend-schema.md` 中对 `simulation.py`、`matching_engine.py`、`UserDB.py`、`ForumDB.py`、`InformationDB.py` 的代码阅读与类型整理。 |
+| 2026-03-23 00:45 | TwinMarket UI 应补齐 replay mode、scenario builder、runtime/UI 解耦与 analytics flow 视图，而不是只做首页大屏。 | `research/multi-agent-ui-survey.md` 中对 Smallville、AgentSims、ChatArena、MedAgentSim 等项目的横向比较。 |
