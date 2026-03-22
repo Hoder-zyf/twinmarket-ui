@@ -134,3 +134,27 @@
   - `plan.md` 中 Step 4 已打勾并补充完成摘要
   - `plan.md` 决策日志已追加 Step 4 结论
 - 验证：调研文件已写入，计划文件已更新。
+
+### Step 5 调研：TwinMarket 后端数据结构
+- 新增调研文件：`research/twinmarket-backend-schema.md`
+- 阅读了以下核心代码：
+  - `simulation.py`
+  - `trader/trading_agent.py`
+  - `trader/matching_engine.py`
+  - `util/UserDB.py`
+  - `util/ForumDB.py`
+  - `util/InformationDB.py`
+  - `trader/prompts.py`
+  - `data/stock_profile.csv`
+- 关键结论：
+  - TwinMarket 后端天然分成 **Profiles / Forum / Market Data / Matching Outputs / Simulation Runtime / Information Retrieval** 六层
+  - 交易标的当前更像**行业指数篮子**，不是逐只个股订单簿模拟
+  - UI 后续应直接按实体拆分接口，而不是等一个统一大 JSON
+  - 已整理出一版前端可直接采用的 TypeScript 类型草案
+- 特别记录：
+  - 计划中写的是 `Hoder-zyf/TwinMarket`，本轮实际完成代码阅读的是公开可访问的 `FreedomIntelligence/TwinMarket`
+  - 如果你的私有版和公开版已经分叉，后续还要再补一次 schema diff
+- 同步更新：
+  - `plan.md` 中 Step 5 已打勾并补充完成摘要
+  - `plan.md` 决策日志已追加 Step 5 结论
+- 验证：调研文件已写入，计划文件已更新。

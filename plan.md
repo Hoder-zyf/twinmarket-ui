@@ -66,7 +66,8 @@
 - 产出：`research/oasis-visualization.md`
 
 ### Step 5: 调研 TwinMarket 后端 repo 的数据结构
-- [ ] 目标：搞清楚 TwinMarket 后端到底输出什么数据，UI 需要对接什么
+- [x] 目标：搞清楚 TwinMarket 后端到底输出什么数据，UI 需要对接什么
+> 完成时间: 2026-03-23 00:44 | 摘要: 深读 `FreedomIntelligence/TwinMarket` 的 `simulation.py`、`trading_agent.py`、`matching_engine.py`、`UserDB.py`、`ForumDB.py`、`InformationDB.py` 等代码，形成 `research/twinmarket-backend-schema.md`，并整理出 UI 可直接采用的 TypeScript 类型草案。
 - 调研 `Hoder-zyf/TwinMarket` repo（如果是 private 就从 TwinMarket 论文和现有 README 推断）
 - 重点关注：
   - Agent profile 的数据结构（字段、类型）
@@ -137,3 +138,4 @@
 | 2026-03-23 00:41 | 市场信息流分三层：Eastmoney 7x24 负责快讯流，Cninfo 负责高信号公告层，Sina roll API 负责补充新闻层。 | `research/news-data-sources.md` 中对 Eastmoney fastnews、Sina roll、Cninfo、财联社、同花顺、AKShare 的返回格式、稳定性与接入成本对比。 |
 | 2026-03-23 00:42 | TwinMarket UI 不应只做单页大屏，更应借鉴 MiroFish 的“探索 → 运行 → 分析 → 追问”工作流信息架构。 | `research/mirofish-ui-analysis.md` 中对 GraphPanel、Step3Simulation、Step4Report、Step5Interaction 的代码阅读与结构分析。 |
 | 2026-03-23 00:43 | OASIS 更适合作为 TwinMarket 的分析对象/数据导出参考，而不是前端 UI 组件来源。 | `research/oasis-visualization.md` 中对 OASIS visualization 目录、文档与 network/analysis 脚本的阅读。 |
+| 2026-03-23 00:44 | TwinMarket 后端接口设计应按实体拆分：AgentProfile、Forum、InstrumentSnapshot、Transaction/DailySummary、SimulationConfig，而不是塞成一个大结果对象。 | `research/twinmarket-backend-schema.md` 中对 `simulation.py`、`matching_engine.py`、`UserDB.py`、`ForumDB.py`、`InformationDB.py` 的代码阅读与类型整理。 |
