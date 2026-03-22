@@ -59,7 +59,8 @@
 - 产出：`research/mirofish-ui-analysis.md`
 
 ### Step 4: 调研 OASIS 框架的可视化层
-- [ ] 目标：MiroFish 底层用的是 CAMEL-AI 的 OASIS 框架，看看 OASIS 本身有没有前端/可视化组件
+- [x] 目标：MiroFish 底层用的是 CAMEL-AI 的 OASIS 框架，看看 OASIS 本身有没有前端/可视化组件
+> 完成时间: 2026-03-23 00:43 | 摘要: 阅读了 `camel-ai/oasis` 的 visualization 相关文档与代码，形成 `research/oasis-visualization.md`；结论是 OASIS 更像提供分析对象与导出结构，不提供可直接复用的前端产品层。
 - 调研 `camel-ai/oasis` repo
 - 重点：有没有现成的 agent 社交网络可视化、模拟回放 UI、数据导出格式
 - 产出：`research/oasis-visualization.md`
@@ -135,3 +136,4 @@
 | 2026-03-23 00:40 | 上证50全量行情的当前主方案定为 Eastmoney 批量接口，Sina 作为 fallback；成分股名单建议静态快照 + 周期性更新。 | `research/stock-data-sources.md` 中对 Eastmoney `ulist.np/get`、Sina `hq.sinajs.cn`、Tushare、AKShare 的稳定性与接入成本对比。 |
 | 2026-03-23 00:41 | 市场信息流分三层：Eastmoney 7x24 负责快讯流，Cninfo 负责高信号公告层，Sina roll API 负责补充新闻层。 | `research/news-data-sources.md` 中对 Eastmoney fastnews、Sina roll、Cninfo、财联社、同花顺、AKShare 的返回格式、稳定性与接入成本对比。 |
 | 2026-03-23 00:42 | TwinMarket UI 不应只做单页大屏，更应借鉴 MiroFish 的“探索 → 运行 → 分析 → 追问”工作流信息架构。 | `research/mirofish-ui-analysis.md` 中对 GraphPanel、Step3Simulation、Step4Report、Step5Interaction 的代码阅读与结构分析。 |
+| 2026-03-23 00:43 | OASIS 更适合作为 TwinMarket 的分析对象/数据导出参考，而不是前端 UI 组件来源。 | `research/oasis-visualization.md` 中对 OASIS visualization 目录、文档与 network/analysis 脚本的阅读。 |

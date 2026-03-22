@@ -118,3 +118,19 @@
   - `plan.md` 中 Step 3 已打勾并补充完成摘要
   - `plan.md` 决策日志已追加 Step 3 结论
 - 验证：调研文件已写入，计划文件已更新。
+
+### Step 4 调研：OASIS 可视化层
+- 新增调研文件：`research/oasis-visualization.md`
+- 阅读了以下内容：
+  - `docs/visualization/visualization.mdx`
+  - `examples/experiment/user_generation_visualization.md`
+  - `visualization/dynamic_follow_network/code/vis_neo4j_reddit.py`
+  - `visualization/twitter_simulation/align_with_real_world/code/graph.py`
+- 关键结论：
+  - OASIS 没有像 MiroFish 那样的完整前端产品层
+  - 更像是 **实验分析脚本 + 网络/传播结构可视化工具**
+  - 更适合拿来指导 TwinMarket 的 **数据导出结构、网络分析视角、simulation-vs-reality 对照视图**
+- 同步更新：
+  - `plan.md` 中 Step 4 已打勾并补充完成摘要
+  - `plan.md` 决策日志已追加 Step 4 结论
+- 验证：调研文件已写入，计划文件已更新。
