@@ -177,3 +177,20 @@
   - `plan.md` 中 Step 6 已打勾并补充完成摘要
   - `plan.md` 决策日志已追加 Step 6 结论
 - 验证：调研文件已写入，计划文件已更新。
+
+### Step 7 调研：前端图可视化方案
+- 新增调研文件：`research/graph-visualization-options.md`
+- 评估了以下方案：
+  - D3.js force graph
+  - vis-network
+  - Cytoscape.js
+  - react-force-graph
+  - sigma.js
+- 关键结论：
+  - **Cytoscape.js** 最适合作为 TwinMarket MVP 阶段的主图方案
+  - **react-force-graph** 更适合作为后续增强视图/演示视图
+  - D3 自由度最高但当前维护成本过高，vis-network 与 sigma.js 各有适用边界但都不是当前最优
+- 同步更新：
+  - `plan.md` 中 Step 7 已打勾并补充完成摘要
+  - `plan.md` 决策日志已追加 Step 7 结论
+- 验证：调研文件已写入，计划文件已更新。

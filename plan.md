@@ -93,7 +93,8 @@
 - 产出：`research/multi-agent-ui-survey.md`
 
 ### Step 7: 评估前端图可视化方案
-- [ ] 目标：TwinMarket 有 agent influence network（社交图谱），需要选一个合适的图可视化库
+- [x] 目标：TwinMarket 有 agent influence network（社交图谱），需要选一个合适的图可视化库
+> 完成时间: 2026-03-23 00:46 | 摘要: 完成 D3.js force graph、vis-network、Cytoscape.js、react-force-graph、sigma.js 的横向评估，形成 `research/graph-visualization-options.md`；当前建议 MVP 主图选 Cytoscape.js，后续增强视图可补 react-force-graph。
 - 评估范围：
   - D3.js force graph
   - vis.js / vis-network
@@ -141,3 +142,4 @@
 | 2026-03-23 00:43 | OASIS 更适合作为 TwinMarket 的分析对象/数据导出参考，而不是前端 UI 组件来源。 | `research/oasis-visualization.md` 中对 OASIS visualization 目录、文档与 network/analysis 脚本的阅读。 |
 | 2026-03-23 00:44 | TwinMarket 后端接口设计应按实体拆分：AgentProfile、Forum、InstrumentSnapshot、Transaction/DailySummary、SimulationConfig，而不是塞成一个大结果对象。 | `research/twinmarket-backend-schema.md` 中对 `simulation.py`、`matching_engine.py`、`UserDB.py`、`ForumDB.py`、`InformationDB.py` 的代码阅读与类型整理。 |
 | 2026-03-23 00:45 | TwinMarket UI 应补齐 replay mode、scenario builder、runtime/UI 解耦与 analytics flow 视图，而不是只做首页大屏。 | `research/multi-agent-ui-survey.md` 中对 Smallville、AgentSims、ChatArena、MedAgentSim 等项目的横向比较。 |
+| 2026-03-23 00:46 | TwinMarket 的 agent influence network 在 MVP 阶段优先选 Cytoscape.js；如果要增强展示效果，再补 react-force-graph。 | `research/graph-visualization-options.md` 中对 D3.js、vis-network、Cytoscape.js、react-force-graph、sigma.js 的交互性、性能与集成成本比较。 |
