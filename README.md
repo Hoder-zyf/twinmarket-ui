@@ -42,11 +42,15 @@ src/
     dashboard.tsx
     live-sse50-overview.tsx
   data/
+    fixtures/
     mock-data.ts
   lib/
+    adapters/
     market/
       sse50.ts
       types.ts
+  types/
+    twinmarket.ts
 ```
 
 ## Live SSE 50 integration
@@ -58,6 +62,13 @@ src/
 - The server normalizes both source formats into the same typed shape:
   - `symbol`, `name`, `latestPrice`, `change`, `changePercent`, `open`, `high`, `low`, `previousClose`, `timestamp`, `source`
 - If refresh fails, the overview keeps showing the last successful quote and surfaces an error state in the card.
+
+## Data layer notes
+
+- `src/types/twinmarket.ts` now contains the shared frontend domain types.
+- `src/data/fixtures/*` stores structured mock fixtures by domain (agents / forum / market).
+- `src/lib/adapters/*` is the normalization layer that converts fixtures or future API payloads into the shapes used by the current dashboard.
+- `src/data/mock-data.ts` is now a compatibility export layer for the existing UI, built from the typed fixtures + adapters.
 
 ## Current interface blocks
 

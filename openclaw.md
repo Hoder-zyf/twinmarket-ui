@@ -224,3 +224,27 @@
   - `plan.md` 中 Step 8 已打勾并补充完成摘要
   - `plan.md` 决策日志已追加 Step 8 结论
 - 验证：计划文件已更新，Phase 5 已展开为具体实施计划。
+
+### Step 9 实施：统一数据层与类型系统
+- 新增类型系统文件：`src/types/twinmarket.ts`
+- 新增结构化 mock fixtures：
+  - `src/data/fixtures/agents.ts`
+  - `src/data/fixtures/forum.ts`
+  - `src/data/fixtures/market.ts`
+- 新增 adapter 层：
+  - `src/lib/adapters/dashboard.ts`
+  - `src/lib/adapters/index.ts`
+- 重写 `src/data/mock-data.ts` 为兼容导出层：
+  - 由 typed fixtures + adapters 生成当前 dashboard 所需数据
+  - 保持现有组件基本无需修改
+- 更新 `README.md`：
+  - 补充 types / fixtures / adapters 的数据层说明
+- 关键结论：
+  - 现在 mock 数据和未来真实 API 数据已经有统一落点
+  - 当前 UI 还保留原有外观，但底层数据组织已经从“单文件 mock”升级成“领域类型 + fixtures + adapter”结构
+- 验证：
+  - `npm run lint` 通过
+  - `npm run build` 通过
+- 同步更新：
+  - `plan.md` 中 Step 9 已打勾并补充完成摘要
+  - `plan.md` 决策日志已追加 Step 9 结论

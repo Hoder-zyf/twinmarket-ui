@@ -254,7 +254,8 @@ flowchart TD
 ---
 
 ### Step 9: 统一数据层与类型系统
-- [ ] 目标：基于 Step 5 的 schema 草案，把前端里的 mock data 升级为统一的 `types + adapters + mock fixtures`
+- [x] 目标：基于 Step 5 的 schema 草案，把前端里的 mock data 升级为统一的 `types + adapters + mock fixtures`
+> 完成时间: 2026-03-23 01:38 | 摘要: 新增 `src/types/twinmarket.ts`、`src/data/fixtures/*`、`src/lib/adapters/*`，并把 `src/data/mock-data.ts` 改成兼容导出层；现有 UI 无需大改即可消费统一类型系统，`npm run lint` 与 `npm run build` 通过。
 - 具体任务：
   - 新建 `src/types/twinmarket.ts`
   - 拆分 `src/data/mock-data.ts` 为更结构化的 fixtures
@@ -340,3 +341,4 @@ flowchart TD
 | 2026-03-23 00:45 | TwinMarket UI 应补齐 replay mode、scenario builder、runtime/UI 解耦与 analytics flow 视图，而不是只做首页大屏。 | `research/multi-agent-ui-survey.md` 中对 Smallville、AgentSims、ChatArena、MedAgentSim 等项目的横向比较。 |
 | 2026-03-23 00:46 | TwinMarket 的 agent influence network 在 MVP 阶段优先选 Cytoscape.js；如果要增强展示效果，再补 react-force-graph。 | `research/graph-visualization-options.md` 中对 D3.js、vis-network、Cytoscape.js、react-force-graph、sigma.js 的交互性、性能与集成成本比较。 |
 | 2026-03-23 00:48 | TwinMarket UI 的 MVP 定位明确为“研究展示优先的 market replay terminal”，并追加了 Step 9-16 的实施计划。 | 前 1-7 步的调研汇总：真实市场数据层、事件流、MiroFish workflow、TwinMarket schema、graph 方案评估。 |
+| 2026-03-23 01:38 | Step 9 采用“typed fixtures + adapter + compatibility exports”的方式完成，既统一数据层，又避免现有 UI 大重构。 | `src/types/twinmarket.ts`、`src/data/fixtures/*`、`src/lib/adapters/*` 与 `src/data/mock-data.ts` 的改造结果，以及 lint/build 验证。 |
