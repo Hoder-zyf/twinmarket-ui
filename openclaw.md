@@ -281,3 +281,36 @@
 - 同步更新：
   - `plan.md` 中 Step 10 已打勾并补充完成摘要
   - `plan.md` 决策日志已追加 Step 10 结论
+
+### Step 11 实施：真实 event stream
+- 新增新闻聚合层：
+  - `src/lib/news/types.ts`
+  - `src/lib/news/shared.ts`
+  - `src/lib/news/eastmoney-fastnews.ts`
+  - `src/lib/news/cninfo.ts`
+  - `src/lib/news/sina-roll.ts`
+  - `src/lib/news/stream.ts`
+  - `src/lib/news/cache.ts`
+- 新增 API route：
+  - `src/app/api/news/stream/route.ts`
+- 新增前端实时组件：
+  - `src/components/live-event-stream.tsx`
+- 更新 dashboard：
+  - 右侧 `Market event stream` 已从 mock 卡片切换到真实 API 驱动组件
+- 核心实现：
+  - 聚合 Eastmoney fastnews、Cninfo 公告、Sina roll
+  - 统一标准化字段：source / importance / eventType / publishedAt / title / summary / relatedSymbols / url
+  - 做了去重与排序
+  - 新增**当日缓存 fallback**：上游短时失败时，优先回退到今天已成功抓过的快照
+- 关键修正：
+  - 当前环境下 news source 不能依赖 Node `fetch` 稳定获取，因此改成了 **Node `http/https` 原生请求**
+  - 修正了 Eastmoney payload 结构差异
+  - 修正了 Cninfo `secCode` 既可能是字符串也可能是数组的问题
+- 验证：
+  - `npm run lint` 通过
+  - `npm run build` 通过
+  - 本地实测 `/api/news/stream?limit=6` 成功返回真实数据
+  - 三源状态实测均为 `ok=true`
+- 同步更新：
+  - `plan.md` 中 Step 11 已打勾并补充完成摘要
+  - `plan.md` 决策日志已追加 Step 11 结论

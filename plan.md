@@ -274,7 +274,8 @@ flowchart TD
 - 产出：真实市场 overview v2
 
 ### Step 11: 接入真实 event stream
-- [ ] 目标：把 dashboard 的事件流从 mock 换成真实数据
+- [x] 目标：把 dashboard 的事件流从 mock 换成真实数据
+> 完成时间: 2026-03-23 02:32 | 摘要: 已接通 Eastmoney fastnews、Cninfo 公告、Sina roll 三个真实源，新增 `/api/news/stream` 聚合路由、实时前端组件与当日缓存 fallback；本地实测返回 6 条真实事件，三源 `ok=true`，`npm run lint` 与 `npm run build` 通过。
 - 具体任务：
   - 接 Eastmoney fastnews
   - 接 Cninfo 公告
@@ -345,3 +346,4 @@ flowchart TD
 | 2026-03-23 01:38 | Step 9 采用“typed fixtures + adapter + compatibility exports”的方式完成，既统一数据层，又避免现有 UI 大重构。 | `src/types/twinmarket.ts`、`src/data/fixtures/*`、`src/lib/adapters/*` 与 `src/data/mock-data.ts` 的改造结果，以及 lint/build 验证。 |
 | 2026-03-23 01:57 | Step 10 实际执行口径改为“只围绕上证50全部成分股”，不再扩到其他股票池；overview v2 围绕 breadth / turnover / top movers 构建。 | 用户最新要求 + `research/stock-data-sources.md` 中对 Eastmoney 批量接口与成分股静态快照方案的结论。 |
 | 2026-03-23 02:10 | 由于当前环境对 Eastmoney/Sina 访问不稳定，Step 10 的可用实现改为 Tencent 为主源、Eastmoney/Sina 为后备，确保 `/api/market/sse50` 在本地实测可返回 50 只成分股。 | 实测结果：curl/node fetch 对 Tencent 可用，而 Eastmoney 返回 empty reply、Sina 返回 forbidden；本地 API 现已成功返回 `source=tencent, count=50`。 |
+| 2026-03-23 02:32 | Step 11 的真实事件流采用三源聚合 + 去重排序 + 当日缓存 fallback；在当前环境里必须使用 Node `http/https` 原生请求，而不是直接依赖 `fetch`。 | 本地实测 `/api/news/stream?limit=6` 返回 6 条真实事件，Eastmoney/Cninfo/Sina 三源均 `ok=true`。 |

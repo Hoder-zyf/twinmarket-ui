@@ -5,20 +5,12 @@ import {
   askLevels,
   bidLevels,
   controls,
-  events,
   posts,
   sectorTape,
   trades,
 } from "@/data/mock-data";
+import { LiveEventStream } from "@/components/live-event-stream";
 import { LiveSse50Overview } from "@/components/live-sse50-overview";
-
-type Tone = "up" | "down" | "neutral";
-
-const toneStyles: Record<Tone, string> = {
-  up: "text-emerald-300 border-emerald-400/30 bg-emerald-400/10",
-  down: "text-rose-300 border-rose-400/30 bg-rose-400/10",
-  neutral: "text-sky-200 border-sky-400/30 bg-sky-400/10",
-};
 
 function Shell({ children, className = "" }: { children: React.ReactNode; className?: string }) {
   return (
@@ -199,19 +191,7 @@ function MarketEvents() {
   return (
     <Shell className="overflow-hidden">
       <SectionHeader eyebrow="Regime changes" title="Market event stream" meta="news / forum / order imbalance" />
-      <div className="space-y-3 p-5 md:p-6">
-        {events.map((event) => (
-          <div key={`${event.time}-${event.title}`} className="rounded-2xl border border-white/8 bg-black/20 p-4">
-            <div className="flex items-center justify-between gap-3">
-              <div className="flex items-center gap-3">
-                <span className="text-xs text-zinc-500">{event.time}</span>
-                <span className={`rounded-full border px-2 py-1 text-xs ${toneStyles[event.tone]}`}>{event.title}</span>
-              </div>
-            </div>
-            <p className="mt-3 text-sm leading-6 text-zinc-300">{event.detail}</p>
-          </div>
-        ))}
-      </div>
+      <LiveEventStream />
     </Shell>
   );
 }
