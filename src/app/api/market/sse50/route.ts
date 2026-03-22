@@ -1,5 +1,5 @@
-import { getSse50Quote } from "@/lib/market/sse50";
-import type { MarketQuoteApiError, MarketQuoteApiResponse } from "@/lib/market/types";
+import { getSse50Overview } from "@/lib/market/sse50";
+import type { MarketApiError, Sse50OverviewApiResponse } from "@/lib/market/types";
 
 export const runtime = "nodejs";
 
@@ -7,8 +7,8 @@ export async function GET() {
   const fetchedAt = new Date().toISOString();
 
   try {
-    const quote = await getSse50Quote();
-    const body: MarketQuoteApiResponse = { quote, fetchedAt };
+    const overview = await getSse50Overview();
+    const body: Sse50OverviewApiResponse = { overview, fetchedAt };
 
     return Response.json(body, {
       headers: {
@@ -16,8 +16,11 @@ export async function GET() {
       },
     });
   } catch (error) {
-    const body: MarketQuoteApiError = {
-      error: error instanceof Error ? error.message : "Failed to fetch SSE 50 quote",
+    const body: MarketApiError = {
+      error:
+        error instanceof Error
+          ? error.message
+          : "Failed to fetch SSE 50 constituent overview",
       fetchedAt,
     };
 

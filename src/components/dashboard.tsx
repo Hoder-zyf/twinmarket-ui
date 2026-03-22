@@ -6,7 +6,6 @@ import {
   bidLevels,
   controls,
   events,
-  marketStats,
   posts,
   sectorTape,
   trades,
@@ -44,27 +43,7 @@ function SectionHeader({ eyebrow, title, meta }: { eyebrow: string; title: strin
 }
 
 function OverviewStats() {
-  return (
-    <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-[1.65fr_repeat(3,minmax(0,1fr))]">
-      <div className="md:col-span-2 xl:col-span-1">
-        <LiveSse50Overview />
-      </div>
-      {marketStats.slice(1).map((item) => (
-        <Shell key={item.label} className="overflow-hidden">
-          <div className="p-5 md:p-6">
-            <div className="flex items-center justify-between text-xs uppercase tracking-[0.24em] text-zinc-400">
-              <span>{item.label}</span>
-              <span className={`rounded-full border px-2 py-1 ${toneStyles[item.tone]}`}>{item.delta}</span>
-            </div>
-            <div className="mt-6 flex items-end justify-between gap-4">
-              <span className="text-3xl font-semibold tracking-tight text-white">{item.value}</span>
-              <div className="h-12 w-20 rounded-full bg-[radial-gradient(circle_at_top,rgba(34,211,238,0.45),transparent_60%)]" />
-            </div>
-          </div>
-        </Shell>
-      ))}
-    </div>
-  );
+  return <LiveSse50Overview />;
 }
 
 function SectorTape() {

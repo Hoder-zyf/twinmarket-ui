@@ -248,3 +248,35 @@
 - 同步更新：
   - `plan.md` 中 Step 9 已打勾并补充完成摘要
   - `plan.md` 决策日志已追加 Step 9 结论
+
+### Step 10 实施：上证50全部成分股真实市场概览
+- 新增成分股静态快照文件：`src/data/sse50-constituents.ts`
+  - 维护了 50 只上证50成分股的代码、名称、`secid`、`sinaSymbol`
+  - 明确记录了快照版本与日期
+- 重构市场类型：`src/lib/market/types.ts`
+  - 从单一指数 quote 扩展到 constituent quote / breadth / turnover / movers / overview
+- 重构市场服务：`src/lib/market/sse50.ts`
+  - 主源：Eastmoney 批量接口
+  - fallback：Sina 批量接口
+  - 对 50 只成分股逐批抓取、校验、聚合
+  - 生成统一 `Sse50MarketOverview`
+- 更新 API route：`src/app/api/market/sse50/route.ts`
+  - 从单一指数 quote 改为返回整套上证50成分股 overview
+- 更新 UI：
+  - `src/components/live-sse50-overview.tsx`
+  - `src/components/dashboard.tsx`
+  - 顶部概览现在显示：
+    - breadth（上涨/下跌/平盘）
+    - total / median turnover
+    - top gainers / top losers
+    - top 8 turnover snapshot
+- 关键约束：
+  - 按用户最新要求，本步只围绕 **上证50全部成分股**，没有接入其他股票池
+- 验证：
+  - `npm run lint` 通过
+  - `npm run build` 通过
+  - 本地 `npm run dev` 可起服务
+  - 本地请求 `/api/market/sse50` 时，在当前环境下上游 Eastmoney/Sina 出现 fetch failed / timeout，因此返回的是**结构化 502 错误**；说明路由错误处理正常，但当前环境对上游数据源访问不稳定
+- 同步更新：
+  - `plan.md` 中 Step 10 已打勾并补充完成摘要
+  - `plan.md` 决策日志已追加 Step 10 结论

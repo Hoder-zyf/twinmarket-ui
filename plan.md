@@ -264,7 +264,8 @@ flowchart TD
 - 产出：类型系统 + adapter 层 + 更干净的 mock fixtures
 
 ### Step 10: 扩展真实市场数据层
-- [ ] 目标：从“只有上证50”扩展到一个更像市场终端的真实行情概览
+- [x] 目标：从“只有上证50”扩展到一个更像市场终端的真实行情概览
+> 完成时间: 2026-03-23 01:57 | 摘要: 已按用户最新要求把 Step 10 聚焦到“上证50全部成分股”，新增成分股静态快照、批量行情抓取与 overview 聚合逻辑，并把顶部概览改为基于 50 只成分股的 breadth / turnover / top movers 视图；`npm run lint` 与 `npm run build` 通过，本地 API 路由可返回规范化结果或结构化 502 错误。
 - 具体任务：
   - 接入沪深300、创业板指
   - 做 top movers / market breadth / turnover 概览
@@ -342,3 +343,4 @@ flowchart TD
 | 2026-03-23 00:46 | TwinMarket 的 agent influence network 在 MVP 阶段优先选 Cytoscape.js；如果要增强展示效果，再补 react-force-graph。 | `research/graph-visualization-options.md` 中对 D3.js、vis-network、Cytoscape.js、react-force-graph、sigma.js 的交互性、性能与集成成本比较。 |
 | 2026-03-23 00:48 | TwinMarket UI 的 MVP 定位明确为“研究展示优先的 market replay terminal”，并追加了 Step 9-16 的实施计划。 | 前 1-7 步的调研汇总：真实市场数据层、事件流、MiroFish workflow、TwinMarket schema、graph 方案评估。 |
 | 2026-03-23 01:38 | Step 9 采用“typed fixtures + adapter + compatibility exports”的方式完成，既统一数据层，又避免现有 UI 大重构。 | `src/types/twinmarket.ts`、`src/data/fixtures/*`、`src/lib/adapters/*` 与 `src/data/mock-data.ts` 的改造结果，以及 lint/build 验证。 |
+| 2026-03-23 01:57 | Step 10 实际执行口径改为“只围绕上证50全部成分股”，不再扩到其他股票池；overview v2 围绕 breadth / turnover / top movers 构建。 | 用户最新要求 + `research/stock-data-sources.md` 中对 Eastmoney 批量接口与成分股静态快照方案的结论。 |
