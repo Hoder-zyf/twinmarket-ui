@@ -79,3 +79,20 @@
   - `plan.md` 中 Step 1 已打勾并补充完成摘要
   - `plan.md` 决策日志已追加 Step 1 结论
 - 验证：调研文件已写入，计划文件已更新。
+
+### Step 2 调研：免费金融/市场信息流来源
+- 新增调研文件：`research/news-data-sources.md`
+- 调研并验证了以下方向：
+  - Eastmoney 7x24 快讯接口
+  - Sina `feed.mix.sina.com.cn` 滚动新闻接口
+  - Cninfo 历史公告查询接口
+  - 财联社 / 同花顺的可接入性
+  - AKShare 在新闻采集层的适用性
+- 关键结论：
+  - **Eastmoney 7x24** 最适合作为 event stream 主源
+  - **Cninfo** 最适合作为高信号公告层
+  - **Sina roll API** 适合作为补充新闻层
+- 同步更新：
+  - `plan.md` 中 Step 2 已打勾并补充完成摘要
+  - `plan.md` 决策日志已追加 Step 2 结论
+- 验证：调研文件已写入，计划文件已更新。

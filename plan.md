@@ -25,7 +25,8 @@
 - 产出：`research/stock-data-sources.md`，包含每个方案的优劣对比表 + 最终推荐方案 + 示例请求/响应
 
 ### Step 2: 调研免费可靠的金融/市场信息发布来源
-- [ ] 目标：找到一个能程序化获取的**新闻/公告/信息流**来源，用于给 agent 的 event stream 提供真实信息输入
+- [x] 目标：找到一个能程序化获取的**新闻/公告/信息流**来源，用于给 agent 的 event stream 提供真实信息输入
+> 完成时间: 2026-03-23 00:41 | 摘要: 完成 Eastmoney 7x24、Sina roll API、Cninfo 公告查询、财联社/同花顺/AKShare 方向调研，形成 `research/news-data-sources.md`，当前推荐用 Eastmoney 7x24 作为 event stream 主源、Cninfo 作为公告层、Sina 作为补充新闻层。
 - 调研范围（不限于）：
   - 东方财富 7x24 快讯 API
   - 新浪财经新闻 API / RSS
@@ -131,3 +132,4 @@
 | 时间 | 决策/发现 | 依据 |
 |------|-----------|------|
 | 2026-03-23 00:40 | 上证50全量行情的当前主方案定为 Eastmoney 批量接口，Sina 作为 fallback；成分股名单建议静态快照 + 周期性更新。 | `research/stock-data-sources.md` 中对 Eastmoney `ulist.np/get`、Sina `hq.sinajs.cn`、Tushare、AKShare 的稳定性与接入成本对比。 |
+| 2026-03-23 00:41 | 市场信息流分三层：Eastmoney 7x24 负责快讯流，Cninfo 负责高信号公告层，Sina roll API 负责补充新闻层。 | `research/news-data-sources.md` 中对 Eastmoney fastnews、Sina roll、Cninfo、财联社、同花顺、AKShare 的返回格式、稳定性与接入成本对比。 |
