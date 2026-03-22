@@ -96,3 +96,25 @@
   - `plan.md` 中 Step 2 已打勾并补充完成摘要
   - `plan.md` 决策日志已追加 Step 2 结论
 - 验证：调研文件已写入，计划文件已更新。
+
+### Step 3 调研：MiroFish UI 实现
+- 新增调研文件：`research/mirofish-ui-analysis.md`
+- 阅读了以下 repo/前端代码：
+  - `666ghj/MiroFish`
+  - `amadad/mirofish`
+  - `nikmcfly/MiroFish-Offline`
+- 重点分析了：
+  - `frontend/package.json`（前端框架）
+  - `GraphPanel.vue`
+  - `Step3Simulation.vue`
+  - `Step4Report.vue`
+  - `Step5Interaction.vue`
+  - `InteractionView.vue` / `SimulationRunView.vue`
+- 关键结论：
+  - MiroFish 前端核心是 **多 step 研究工作流**，不是普通 dashboard
+  - 最值得借鉴的是 **探索 → 运行 → 分析 → 追问** 的信息架构
+  - agent 行为流、报告生成过程、双层对话对象（report agent / individual agent）都很值得在 TwinMarket UI 里复用
+- 同步更新：
+  - `plan.md` 中 Step 3 已打勾并补充完成摘要
+  - `plan.md` 决策日志已追加 Step 3 结论
+- 验证：调研文件已写入，计划文件已更新。

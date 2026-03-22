@@ -43,7 +43,8 @@
 ## Phase 2: 竞品/参考项目调研
 
 ### Step 3: 深度调研 MiroFish 的 UI 实现
-- [ ] 目标：搞清楚 MiroFish 的前端是怎么做的，哪些设计模式和组件可以借鉴
+- [x] 目标：搞清楚 MiroFish 的前端是怎么做的，哪些设计模式和组件可以借鉴
+> 完成时间: 2026-03-23 00:42 | 摘要: 深读了 `666ghj/MiroFish`、`amadad/mirofish`、`nikmcfly/MiroFish-Offline` 的前端代码与关键组件，形成 `research/mirofish-ui-analysis.md`；当前结论是 MiroFish 更值得借鉴的是 workflow information architecture，而不是具体框架选型。
 - 调研内容：
   - 去读 `666ghj/MiroFish` repo 的前端代码（找 frontend / web / ui 目录）
   - 也看 `amadad/mirofish`（英文 fork，有 npm run dev）和 `nikmcfly/MiroFish-Offline`
@@ -133,3 +134,4 @@
 |------|-----------|------|
 | 2026-03-23 00:40 | 上证50全量行情的当前主方案定为 Eastmoney 批量接口，Sina 作为 fallback；成分股名单建议静态快照 + 周期性更新。 | `research/stock-data-sources.md` 中对 Eastmoney `ulist.np/get`、Sina `hq.sinajs.cn`、Tushare、AKShare 的稳定性与接入成本对比。 |
 | 2026-03-23 00:41 | 市场信息流分三层：Eastmoney 7x24 负责快讯流，Cninfo 负责高信号公告层，Sina roll API 负责补充新闻层。 | `research/news-data-sources.md` 中对 Eastmoney fastnews、Sina roll、Cninfo、财联社、同花顺、AKShare 的返回格式、稳定性与接入成本对比。 |
+| 2026-03-23 00:42 | TwinMarket UI 不应只做单页大屏，更应借鉴 MiroFish 的“探索 → 运行 → 分析 → 追问”工作流信息架构。 | `research/mirofish-ui-analysis.md` 中对 GraphPanel、Step3Simulation、Step4Report、Step5Interaction 的代码阅读与结构分析。 |
