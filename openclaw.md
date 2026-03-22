@@ -55,3 +55,27 @@
   - `npm run build` 通过
   - 本地接口实测 `http://localhost:3000/api/market/sse50` 返回正常
 - 已推送 commit：`d6c2739` (`feat: add live SSE 50 market data integration`)
+
+### 新增项目计划文件
+- 按用户提供的任务拆解，在项目根目录新增 `plan.md`。
+- 内容包括：数据源调研、竞品/参考项目调研、横向补充调研、MVP 规划、后续实施计划占位、决策日志。
+- 该文件将作为后续研究与开发的主计划板。
+- 验证：文件已写入项目根目录。
+
+### Step 1 调研：上证50免费行情接口
+- 新增调研文件：`research/stock-data-sources.md`
+- 调研并验证了以下方向：
+  - Eastmoney `push2` 单只行情
+  - Eastmoney `ulist.np/get` 批量行情
+  - Sina `hq.sinajs.cn` 批量行情
+  - Tushare 免费层适用性
+  - AKShare 作为 Python 聚合层的适用性
+  - 同花顺网页接口的可维护性风险
+- 关键结论：
+  - 当前最适合 `twinmarket-ui` 的主方案是 **Eastmoney 批量接口**
+  - **Sina** 更适合作为 fallback
+  - 上证50成分股名单建议采用 **静态快照 + 周期性更新**
+- 同步更新：
+  - `plan.md` 中 Step 1 已打勾并补充完成摘要
+  - `plan.md` 决策日志已追加 Step 1 结论
+- 验证：调研文件已写入，计划文件已更新。
