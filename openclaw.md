@@ -194,3 +194,33 @@
   - `plan.md` 中 Step 7 已打勾并补充完成摘要
   - `plan.md` 决策日志已追加 Step 7 结论
 - 验证：调研文件已写入，计划文件已更新。
+
+### Step 8 规划：TwinMarket UI 最小 MVP
+- 在 `plan.md` 中补全了 Step 8 的正式结论，并直接把实施计划 append 到 Phase 5。
+- 明确了 MVP 核心定位：
+  - **研究展示优先的 market replay terminal**
+  - 不是单纯交易大屏，也不是完整生产交易系统
+- 明确了 MVP 的 Must-have：
+  - 真实市场概览层
+  - 真实 event stream
+  - Cytoscape agent network 主图
+  - agent detail drawer
+  - forum / belief stream
+  - microstructure panel
+  - replay/time control
+- 明确了技术路线：
+  - 继续使用 `Next.js + Tailwind + TypeScript`
+  - 增加 `zustand`、`Cytoscape.js`、`recharts`
+- 在 Phase 5 中追加了 Step 9-16 的实施计划，覆盖：
+  - types/adapters 重构
+  - 多指数真实行情
+  - 真实事件流
+  - network 主图重做
+  - agent detail drawer
+  - forum / trades / summary 重构
+  - replay 控制
+  - demo polish
+- 同步更新：
+  - `plan.md` 中 Step 8 已打勾并补充完成摘要
+  - `plan.md` 决策日志已追加 Step 8 结论
+- 验证：计划文件已更新，Phase 5 已展开为具体实施计划。

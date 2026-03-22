@@ -109,7 +109,8 @@
 ## Phase 4: MVP 规划
 
 ### Step 8: 制定 TwinMarket UI 最小 MVP 方案
-- [ ] 目标：基于所有调研结果，制定一个**具体可执行的最小 MVP**
+- [x] 目标：基于所有调研结果，制定一个**具体可执行的最小 MVP**
+> 完成时间: 2026-03-23 00:48 | 摘要: 基于前七步调研结果，确定 TwinMarket UI 的 MVP 形态是“研究展示优先的 market replay terminal”，补齐 replay、agent detail、真实行情面板、真实事件流与可切换 network 主图，并将 Step 9-16 的实施计划直接追加到 Phase 5。
 - MVP 定义应包含：
   - **核心场景**：这个 UI 给谁看？解决什么问题？（论文 demo / 研究展示 / 实时监控）
   - **Must-have 功能清单**（按优先级排序）
@@ -126,7 +127,202 @@
 
 ## Phase 5: MVP 实施计划
 
-（由 Step 8 完成后自动 append 到这里，包含具体的编码步骤）
+### TwinMarket UI MVP 定义（由 Step 8 产出）
+
+#### 核心场景
+MVP 的核心定位不是“完整交易系统”，而是一个 **面向论文 demo / 研究展示 / 内部演示的 market replay terminal**。  
+它要回答三个问题：
+
+1. **市场今天发生了什么？**
+2. **这些变化是哪些 agent、事件、社交传播共同造成的？**
+3. **我能不能点进去追问一个 agent / 查看一个时刻 / 回放一个过程？**
+
+也就是说，第一版不是给真实交易员盯盘，而是给：
+- 研究者
+- 合作者
+- reviewer / demo audience
+- 你自己做系统 debug / 展示
+
+#### Must-have 功能清单（按优先级）
+1. **真实市场概览层**
+   - 上证50实时行情
+   - 后续补沪深300 / 创业板指
+   - top movers / breadth / turnover 概览
+2. **Market event stream**
+   - Eastmoney 7x24 + Cninfo + Sina 聚合
+   - importance/source 标签
+3. **Agent influence network 主图**
+   - 基于 Cytoscape.js
+   - 支持 click / hover / filter / view mode
+4. **Agent profile drawer**
+   - 画像、策略、风险偏好、PnL、持仓、近期观点
+5. **Forum / belief stream**
+   - 展示 agent 发帖、引用、看多看空态度
+6. **Market microstructure panel**
+   - order book / recent prints / daily summary
+7. **Replay / time control**
+   - 日期 / 时间轴 / play-pause / speed / seed / scenario
+
+#### Nice-to-have 功能清单
+1. Ask Market Analyst
+2. Interview this Agent
+3. simulation vs. real market 对照视图
+4. report generation / analysis provenance panel
+5. react-force-graph 动态演示视图
+6. scenario builder（行为偏差/冲击注入）
+
+#### 数据流设计
+
+##### 真实数据
+- 上证50 / 沪深300 / 创业板指：真实行情
+- 市场快讯：Eastmoney 7x24
+- 公告：Cninfo
+- 补充新闻：Sina roll API
+
+##### Mock 数据（MVP 初期保留）
+- agent profiles
+- forum posts
+- transactions / order flow
+- network edges
+- simulation replay timeline
+
+##### TwinMarket 后端对接数据
+- AgentProfile
+- ForumPost / Reaction
+- InstrumentSnapshot
+- DailySummary / Transaction
+- SimulationConfig / Step Runtime
+
+#### 与 TwinMarket 后端的对接方式建议
+
+##### MVP 阶段
+- **REST + 本地 mock 文件** 为主
+- 实时行情与新闻走 Next.js API routes
+- TwinMarket simulation 数据先用静态 JSON / mock store 占位
+
+##### 下一阶段
+- TwinMarket runtime 通过 **WebSocket** 推送：
+  - trade events
+  - forum events
+  - agent actions
+  - summary deltas
+
+#### 技术栈评估
+- **Next.js + Tailwind + TypeScript**：足够继续做 MVP
+- 建议新增：
+  - `zustand`：管理 UI 状态（选中 agent、filters、drawer、view mode）
+  - `Cytoscape.js`：network 主图
+  - `recharts`：价格/情绪/成交趋势图
+  - 轻量 schema/types 层：统一 mock 与后端结构
+
+#### 关键组件架构图
+
+```mermaid
+flowchart TD
+  A[Next.js App Router] --> B[Market Data API Routes]
+  A --> C[News/Event API Routes]
+  A --> D[Mock TwinMarket Data Layer]
+  D --> E[Agent Network Panel]
+  D --> F[Agent Profile Drawer]
+  D --> G[Forum/Belief Stream]
+  D --> H[Order Book / Trades / Summary]
+  B --> I[Live Market Overview]
+  C --> J[Event Stream]
+  K[Replay / Control State] --> E
+  K --> G
+  K --> H
+  K --> F
+```
+
+#### 从 MiroFish 借鉴的具体设计点
+1. workflow thinking：不只首页大屏
+2. typed action stream
+3. report / analysis 过程可视化
+4. 区分 system analyst 与 individual agent
+5. 让 graph 成为真正可交互的入口
+
+#### 预估工作量
+- Step 9：整理数据层与 types，1~2h
+- Step 10：真实行情扩到多指数与 breadth，2~4h
+- Step 11：真实新闻/event stream 接入，2~4h
+- Step 12：引入 Cytoscape 主图，4~8h
+- Step 13：agent detail drawer + state 管理，3~5h
+- Step 14：forum / trades / summary 联动，3~6h
+- Step 15：replay 控制与时间轴，3~6h
+- Step 16：收尾、README、演示 polish，2~4h
+
+---
+
+### Step 9: 统一数据层与类型系统
+- [ ] 目标：基于 Step 5 的 schema 草案，把前端里的 mock data 升级为统一的 `types + adapters + mock fixtures`
+- 具体任务：
+  - 新建 `src/types/twinmarket.ts`
+  - 拆分 `src/data/mock-data.ts` 为更结构化的 fixtures
+  - 新建 `src/lib/adapters/`，为真实 API / mock 数据统一 shape
+  - 为 network / forum / market / agent profile 定义清晰类型
+- 产出：类型系统 + adapter 层 + 更干净的 mock fixtures
+
+### Step 10: 扩展真实市场数据层
+- [ ] 目标：从“只有上证50”扩展到一个更像市场终端的真实行情概览
+- 具体任务：
+  - 接入沪深300、创业板指
+  - 做 top movers / market breadth / turnover 概览
+  - 整理统一的 `market overview` API route
+  - 前端 overview 卡片和 mini chart 更新
+- 产出：真实市场 overview v2
+
+### Step 11: 接入真实 event stream
+- [ ] 目标：把 dashboard 的事件流从 mock 换成真实数据
+- 具体任务：
+  - 接 Eastmoney fastnews
+  - 接 Cninfo 公告
+  - 接 Sina 补充新闻
+  - 统一排序、去重、source tag、importance tag
+  - 替换现有右侧 event stream
+- 产出：真实 event stream
+
+### Step 12: 引入 Cytoscape.js 重做 agent network 主图
+- [ ] 目标：把当前静态 SVG 图替换为可交互的正式主图
+- 具体任务：
+  - 接入 Cytoscape.js
+  - 支持节点点击 / hover / filter
+  - 支持不同 view mode（social / belief / trade co-movement）
+  - 预留后续真实 TwinMarket graph 数据接入口
+- 产出：可交互 network panel v2
+
+### Step 13: 做 agent detail drawer
+- [ ] 目标：让 graph / list / forum 三个入口都能打开统一 agent 详情视图
+- 具体任务：
+  - Drawer 组件
+  - Zustand 管理 selected agent
+  - 展示画像、行为偏差、PnL、持仓、近期观点
+- 产出：agent detail interaction v1
+
+### Step 14: 重构论坛流与成交流面板
+- [ ] 目标：让 forum / trades / summary 更像真实 simulation console
+- 具体任务：
+  - forum 卡片增强（观点、引用、reaction）
+  - trades / prints / large flow / daily summary 联动
+  - 用更接近 TwinMarket 的 typed action shape 重构 mock 数据
+- 产出：论坛与微观结构面板 v2
+
+### Step 15: 增加 replay 控制与时间轴
+- [ ] 目标：让整个 UI 从静态 dashboard 升级为可回放的研究终端
+- 具体任务：
+  - 时间轴 slider
+  - play/pause/speed
+  - 日期与 scenario 切换
+  - 让 network / forum / trades 随“时刻”变化
+- 产出：replay mode v1
+
+### Step 16: 演示打磨与文档完善
+- [ ] 目标：把 MVP 调整到可演示、可汇报、可继续接后端的状态
+- 具体任务：
+  - README 更新
+  - 截图 / demo 文案
+  - 接口说明
+  - 后续对接 TwinMarket runtime 的 roadmap
+- 产出：ready-to-demo MVP
 
 ---
 
@@ -143,3 +339,4 @@
 | 2026-03-23 00:44 | TwinMarket 后端接口设计应按实体拆分：AgentProfile、Forum、InstrumentSnapshot、Transaction/DailySummary、SimulationConfig，而不是塞成一个大结果对象。 | `research/twinmarket-backend-schema.md` 中对 `simulation.py`、`matching_engine.py`、`UserDB.py`、`ForumDB.py`、`InformationDB.py` 的代码阅读与类型整理。 |
 | 2026-03-23 00:45 | TwinMarket UI 应补齐 replay mode、scenario builder、runtime/UI 解耦与 analytics flow 视图，而不是只做首页大屏。 | `research/multi-agent-ui-survey.md` 中对 Smallville、AgentSims、ChatArena、MedAgentSim 等项目的横向比较。 |
 | 2026-03-23 00:46 | TwinMarket 的 agent influence network 在 MVP 阶段优先选 Cytoscape.js；如果要增强展示效果，再补 react-force-graph。 | `research/graph-visualization-options.md` 中对 D3.js、vis-network、Cytoscape.js、react-force-graph、sigma.js 的交互性、性能与集成成本比较。 |
+| 2026-03-23 00:48 | TwinMarket UI 的 MVP 定位明确为“研究展示优先的 market replay terminal”，并追加了 Step 9-16 的实施计划。 | 前 1-7 步的调研汇总：真实市场数据层、事件流、MiroFish workflow、TwinMarket schema、graph 方案评估。 |
