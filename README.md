@@ -2,7 +2,9 @@
 
 A polished **Next.js + TypeScript + Tailwind** frontend prototype for a **multi-agent A-share market simulation terminal**.
 
-This project is intentionally frontend-only for now. It uses mock data to demonstrate how a research/demo interface could present:
+The dashboard is still mostly mocked, but the top overview now includes a live **SSE 50 / 上证50** quote pulled server-side through a Next.js API route.
+
+The rest of the interface uses mock data to demonstrate how a research/demo interface could present:
 
 - heterogeneous trading agents
 - social influence and belief propagation
@@ -25,23 +27,41 @@ npm run dev
 
 Then open <http://localhost:3000>.
 
+The live quote route is available at <http://localhost:3000/api/market/sse50>.
+
 ## Project structure
 
 ```text
 src/
   app/
+    api/market/sse50/route.ts
     globals.css
     layout.tsx
     page.tsx
   components/
     dashboard.tsx
+    live-sse50-overview.tsx
   data/
     mock-data.ts
+  lib/
+    market/
+      sse50.ts
+      types.ts
 ```
+
+## Live SSE 50 integration
+
+- The UI polls `/api/market/sse50` every 15 seconds from the client.
+- The API route fetches quotes on the server to avoid browser-side cross-origin issues.
+- Primary source: Eastmoney `push2.eastmoney.com/api/qt/stock/get` with `secid=1.000016`.
+- Fallback source: Sina quote endpoint `hq.sinajs.cn/list=sh000016`.
+- The server normalizes both source formats into the same typed shape:
+  - `symbol`, `name`, `latestPrice`, `change`, `changePercent`, `open`, `high`, `low`, `previousClose`, `timestamp`, `source`
+- If refresh fails, the overview keeps showing the last successful quote and surfaces an error state in the card.
 
 ## Current interface blocks
 
-- **Market overview**: CSI300, turnover, active agents, sentiment
+- **Market overview**: live SSE 50, turnover, active agents, sentiment
 - **Sector pulse**: A-share sector tape
 - **Agent influence network**: simplified relationship topology for social diffusion
 - **Order book & prints**: market microstructure surface
@@ -73,4 +93,5 @@ This UI was designed so it can be wired to a TwinMarket-like backend with minima
 ## Notes
 
 - This is a research-demo UI, not a production trading system.
+- Public quote endpoints can change response formats, throttle aggressively, or go down without notice. The adapter is intentionally small and includes a fallback, but it is still a demo integration.
 - The current visual direction aims for a **high-density institutional terminal** with a more futuristic simulation/research feel than a normal dashboard template.

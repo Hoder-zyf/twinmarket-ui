@@ -11,6 +11,7 @@ import {
   sectorTape,
   trades,
 } from "@/data/mock-data";
+import { LiveSse50Overview } from "@/components/live-sse50-overview";
 
 type Tone = "up" | "down" | "neutral";
 
@@ -44,8 +45,11 @@ function SectionHeader({ eyebrow, title, meta }: { eyebrow: string; title: strin
 
 function OverviewStats() {
   return (
-    <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
-      {marketStats.map((item) => (
+    <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-[1.65fr_repeat(3,minmax(0,1fr))]">
+      <div className="md:col-span-2 xl:col-span-1">
+        <LiveSse50Overview />
+      </div>
+      {marketStats.slice(1).map((item) => (
         <Shell key={item.label} className="overflow-hidden">
           <div className="p-5 md:p-6">
             <div className="flex items-center justify-between text-xs uppercase tracking-[0.24em] text-zinc-400">
