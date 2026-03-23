@@ -285,7 +285,8 @@ flowchart TD
 - 产出：真实 event stream
 
 ### Step 12: 引入 Cytoscape.js 重做 agent network 主图
-- [ ] 目标：把当前静态 SVG 图替换为可交互的正式主图
+- [x] 目标：把当前静态 SVG 图替换为可交互的正式主图
+> 完成时间: 2026-03-23 09:05 | 摘要: 已接入 `cytoscape` 并实现 social / belief / trade 三种 view mode、hover/click 聚焦、risk/sentiment 过滤与当前 replay frame 高亮，主图已从静态展示升级为真正可交互的 network panel。
 - 具体任务：
   - 接入 Cytoscape.js
   - 支持节点点击 / hover / filter
@@ -294,7 +295,8 @@ flowchart TD
 - 产出：可交互 network panel v2
 
 ### Step 13: 做 agent detail drawer
-- [ ] 目标：让 graph / list / forum 三个入口都能打开统一 agent 详情视图
+- [x] 目标：让 graph / list / forum 三个入口都能打开统一 agent 详情视图
+> 完成时间: 2026-03-23 09:07 | 摘要: 已新增统一 `agent detail drawer`，并用 `zustand` 管理 selected agent；当前 graph 节点、agent roster、forum 作者与成交列表都可打开同一详情面板，展示画像、行为偏差、PnL、现金、持仓与 replay 上下文。
 - 具体任务：
   - Drawer 组件
   - Zustand 管理 selected agent
@@ -302,7 +304,8 @@ flowchart TD
 - 产出：agent detail interaction v1
 
 ### Step 14: 重构论坛流与成交流面板
-- [ ] 目标：让 forum / trades / summary 更像真实 simulation console
+- [x] 目标：让 forum / trades / summary 更像真实 simulation console
+> 完成时间: 2026-03-23 09:09 | 摘要: 已新增基于 replay frame 的 `simulation-panels`，把 forum、trades、order book、frame-highlighted agents 与 event synthesis 绑定到统一时刻切片，面板现在更像可讲述过程的 simulation console，而不是彼此独立的静态卡片。
 - 具体任务：
   - forum 卡片增强（观点、引用、reaction）
   - trades / prints / large flow / daily summary 联动
@@ -310,7 +313,8 @@ flowchart TD
 - 产出：论坛与微观结构面板 v2
 
 ### Step 15: 增加 replay 控制与时间轴
-- [ ] 目标：让整个 UI 从静态 dashboard 升级为可回放的研究终端
+- [x] 目标：让整个 UI 从静态 dashboard 升级为可回放的研究终端
+> 完成时间: 2026-03-23 09:12 | 摘要: 已接入 timeline slider、play/pause、step 控制、速度切换、scenario selector 与 replay signal chart，并用共享 store 驱动当前 tick，使 network / forum / trades / summary 随时刻联动。
 - 具体任务：
   - 时间轴 slider
   - play/pause/speed
@@ -319,7 +323,8 @@ flowchart TD
 - 产出：replay mode v1
 
 ### Step 16: 演示打磨与文档完善
-- [ ] 目标：把 MVP 调整到可演示、可汇报、可继续接后端的状态
+- [x] 目标：把 MVP 调整到可演示、可汇报、可继续接后端的状态
+> 完成时间: 2026-03-23 09:14 | 摘要: 已更新 README，补充 replay 架构与当前功能块说明；当前页面已形成“实时市场上下文 + 可回放模拟层 + 统一 agent drill-down”的 demo 结构，并完成 lint/build 验证。
 - 具体任务：
   - README 更新
   - 截图 / demo 文案
@@ -347,3 +352,4 @@ flowchart TD
 | 2026-03-23 01:57 | Step 10 实际执行口径改为“只围绕上证50全部成分股”，不再扩到其他股票池；overview v2 围绕 breadth / turnover / top movers 构建。 | 用户最新要求 + `research/stock-data-sources.md` 中对 Eastmoney 批量接口与成分股静态快照方案的结论。 |
 | 2026-03-23 02:10 | 由于当前环境对 Eastmoney/Sina 访问不稳定，Step 10 的可用实现改为 Tencent 为主源、Eastmoney/Sina 为后备，确保 `/api/market/sse50` 在本地实测可返回 50 只成分股。 | 实测结果：curl/node fetch 对 Tencent 可用，而 Eastmoney 返回 empty reply、Sina 返回 forbidden；本地 API 现已成功返回 `source=tencent, count=50`。 |
 | 2026-03-23 02:32 | Step 11 的真实事件流采用三源聚合 + 去重排序 + 当日缓存 fallback；在当前环境里必须使用 Node `http/https` 原生请求，而不是直接依赖 `fetch`。 | 本地实测 `/api/news/stream?limit=6` 返回 6 条真实事件，Eastmoney/Cninfo/Sina 三源均 `ok=true`。 |
+| 2026-03-23 09:14 | Step 12-16 最终采用“live market context + replayed simulation state + unified drill-down”组合形态：真实新闻与真实 SSE50 保持在线，network / forum / trades / summary 则由 replay frame 和 zustand 状态统一驱动。 | 实作结果：新增 Cytoscape 主图、统一 agent drawer、replay 控制台、frame-sliced simulation panels，并通过 `npm run lint` / `npm run build` 验证。 |

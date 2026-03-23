@@ -1,4 +1,6 @@
 import {
+  type DashboardAgentEdge,
+  type DashboardAgentGraph,
   type DashboardAgentCard,
   type DashboardAgentNode,
   type DashboardControls,
@@ -51,8 +53,24 @@ export function adaptProfilesToAgentNodes(profiles: TwinMarketAgentProfile[]): D
   }));
 }
 
-export function adaptConnectionsToAgentEdges(connections: TwinMarketAgentConnection[]): readonly (readonly [string, string])[] {
-  return connections.map((connection) => [connection.sourceUserId, connection.targetUserId] as const);
+export function adaptConnectionsToAgentEdges(connections: TwinMarketAgentConnection[]): DashboardAgentEdge[] {
+  return connections.map((connection) => ({
+    id: `${connection.sourceUserId}-${connection.targetUserId}-${connection.relationship ?? "social"}`,
+    source: connection.sourceUserId,
+    target: connection.targetUserId,
+    weight: connection.weight ?? 0.5,
+    relationship: connection.relationship ?? "social",
+  }));
+}
+
+export function createDashboardAgentGraph(
+  profiles: TwinMarketAgentProfile[],
+  connections: TwinMarketAgentConnection[],
+): DashboardAgentGraph {
+  return {
+    nodes: adaptProfilesToAgentNodes(profiles),
+    edges: adaptConnectionsToAgentEdges(connections),
+  };
 }
 
 export function adaptProfilesToAgentCards(profiles: TwinMarketAgentProfile[]): DashboardAgentCard[] {
@@ -152,12 +170,14 @@ export function createDashboardData(input: {
   controls: TwinMarketReplayControls;
 }): TwinMarketDashboardData {
   const profilesById = new Map(input.profiles.map((profile) => [profile.userId, profile]));
+  const agentGraph = createDashboardAgentGraph(input.profiles, input.connections);
 
   return {
     marketStats: input.overviewMetrics,
     sectorTape: input.sectorPulse,
-    agentNodes: adaptProfilesToAgentNodes(input.profiles),
-    agentEdges: adaptConnectionsToAgentEdges(input.connections),
+    agentGraph,
+    agentNodes: agentGraph.nodes,
+    agentEdges: agentGraph.edges,
     bidLevels: adaptOrderLevels(input.orderBookLevels, "bid"),
     askLevels: adaptOrderLevels(input.orderBookLevels, "ask"),
     trades: adaptTransactionsToTrades(input.transactions, profilesById),

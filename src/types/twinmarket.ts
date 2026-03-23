@@ -4,6 +4,8 @@ export type TwinMarketSentiment = "bullish" | "bearish" | "neutral";
 
 export type TwinMarketRiskLevel = "low" | "medium" | "high";
 
+export type TwinMarketAgentConnectionRelationship = "social" | "belief" | "trade";
+
 export type TwinMarketForumStance = "bullish" | "bearish" | "neutral";
 
 export type TwinMarketReactionType = "repost" | "like" | "unlike";
@@ -61,7 +63,7 @@ export type TwinMarketAgentConnection = {
   sourceUserId: string;
   targetUserId: string;
   weight?: number;
-  relationship?: "social" | "belief" | "trade";
+  relationship?: TwinMarketAgentConnectionRelationship;
 };
 
 export type TwinMarketForumPostMetrics = {
@@ -143,6 +145,21 @@ export type TwinMarketReplayControls = {
   phase: string;
 };
 
+export type TwinMarketReplayFrame = {
+  tick: number;
+  label: string;
+  phase: string;
+  headline: string;
+  summary: string;
+  highlightedAgentIds: string[];
+  visiblePostIds: number[];
+  visibleTransactionIndices: number[];
+  featuredEventIds: string[];
+  sentimentScore: number;
+  imbalanceScore: number;
+  breadthLabel: string;
+};
+
 export type TwinMarketMarketQuote = {
   symbol: string;
   name: string;
@@ -181,6 +198,21 @@ export type DashboardAgentNode = {
   sentiment: TwinMarketSentiment;
   x: number;
   y: number;
+};
+
+export type DashboardAgentEdge = {
+  id: string;
+  source: string;
+  target: string;
+  weight: number;
+  relationship: TwinMarketAgentConnectionRelationship;
+};
+
+export type DashboardAgentGraphViewMode = "social" | "belief" | "trade";
+
+export type DashboardAgentGraph = {
+  nodes: DashboardAgentNode[];
+  edges: DashboardAgentEdge[];
 };
 
 export type DashboardOrderLevel = {
@@ -237,8 +269,9 @@ export type DashboardControls = TwinMarketReplayControls;
 export type TwinMarketDashboardData = {
   marketStats: DashboardMarketStat[];
   sectorTape: DashboardSectorTapeItem[];
+  agentGraph: DashboardAgentGraph;
   agentNodes: DashboardAgentNode[];
-  agentEdges: readonly (readonly [string, string])[];
+  agentEdges: DashboardAgentEdge[];
   bidLevels: DashboardOrderLevel[];
   askLevels: DashboardOrderLevel[];
   trades: DashboardTrade[];

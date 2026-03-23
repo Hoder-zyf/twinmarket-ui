@@ -10,6 +10,7 @@ import {
 } from "@/data/fixtures/market";
 import type {
   DashboardAgentCard as AgentCard,
+  DashboardAgentGraph as AgentGraph,
   DashboardAgentNode as AgentNode,
   DashboardControls,
   DashboardEventItem as EventItem,
@@ -41,6 +42,7 @@ export type { MarketStat, AgentNode, OrderLevel, EventItem, AgentCard, Post, Tra
 
 export const marketStats: MarketStat[] = dashboardData.marketStats;
 export const sectorTape = dashboardData.sectorTape.map((item) => ({ name: item.name, value: item.value }));
+export const agentGraph: AgentGraph = dashboardData.agentGraph;
 export const agentNodes: AgentNode[] = dashboardData.agentNodes;
 export const agentEdges = dashboardData.agentEdges;
 export const bidLevels: OrderLevel[] = dashboardData.bidLevels;

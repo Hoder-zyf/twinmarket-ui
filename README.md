@@ -74,12 +74,25 @@ src/
 
 - **Market overview**: live SSE 50, turnover, active agents, sentiment
 - **Sector pulse**: A-share sector tape
-- **Agent influence network**: simplified relationship topology for social diffusion
-- **Order book & prints**: market microstructure surface
-- **Market event stream**: major regime and sentiment changes
-- **Agent profiles**: strategy, risk, PnL, positions
-- **Forum stream**: simulated posts and reactions
-- **Simulation controls**: scenario, seed, date, playback state
+- **Agent influence network**: Cytoscape-powered interactive graph with social / belief / trade layers
+- **Unified agent drawer**: click graph nodes, roster cards, or trades/posts to inspect one agent in depth
+- **Replay console**: timeline slider, play/pause, speed control, scenario selector, replay signal chart
+- **Forum stream**: typed belief posts with metrics, ticker tags, and author-linked drawer entry
+- **Trades / prints / summary**: frame-conditioned transaction replay + order book + event synthesis
+- **Live event stream**: real Eastmoney / Cninfo / Sina aggregation alongside replay context
+
+## Replay architecture
+
+- `src/data/fixtures/replay.ts` stores ordered replay frames used by the terminal.
+- `src/lib/state/replay.ts` uses `zustand` for shared UI state:
+  - selected agent
+  - current replay tick
+  - play/pause
+  - speed
+  - scenario
+- `src/components/replay-control-panel.tsx` renders the timeline controls and replay chart.
+- `src/components/agent-detail-drawer.tsx` is the shared drill-down surface.
+- `src/components/simulation-panels.tsx` binds forum / trades / event summary to the current replay frame.
 
 ## How this can connect to TwinMarket later
 

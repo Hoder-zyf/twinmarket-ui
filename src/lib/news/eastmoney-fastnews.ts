@@ -61,7 +61,7 @@ export async function fetchEastmoneyFastNews(limit: number): Promise<NewsEventIt
         source: "eastmoney-fastnews",
         title: item.title || "",
         content: "content" in item ? item.content : undefined,
-        summary: "digest" in item ? item.digest : item.summary,
+        summary: "digest" in item ? item.digest : "summary" in item ? item.summary : undefined,
         publishedAt: buildEastmoneyPublishedAt(item.showTime),
       }),
     );

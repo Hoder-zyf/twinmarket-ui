@@ -314,3 +314,35 @@
 - 同步更新：
   - `plan.md` 中 Step 11 已打勾并补充完成摘要
   - `plan.md` 决策日志已追加 Step 11 结论
+
+### Step 12-16 实施：交互主图、统一 drawer、replay 终端与演示打磨
+- 新增状态与 replay 数据层：
+  - `src/lib/state/replay.ts`
+  - `src/data/fixtures/replay.ts`
+- 新增交互组件：
+  - `src/components/agent-detail-drawer.tsx`
+  - `src/components/replay-control-panel.tsx`
+  - `src/components/simulation-panels.tsx`
+- 重做主图：
+  - `src/components/agent-network-panel.tsx`
+  - 接入 `cytoscape`
+  - 支持 social / belief / trade 三种 view mode
+  - 支持 hover / click 聚焦、risk / sentiment filter、current frame 高亮
+- 重构主页面：
+  - `src/components/dashboard.tsx`
+  - 形成“实时市场上下文 + replay 模拟层 + 统一 agent drill-down”布局
+- 关键交互：
+  - graph 节点、agent roster、forum 作者、trade agent 统一打开同一个 drawer
+  - replay 支持 slider、play/pause、step、speed、scenario
+  - forum / trades / summary / highlighted agents 会跟随当前 tick 联动
+- 依赖更新：
+  - `package.json`
+  - 新增 `zustand`、`recharts`
+- 额外修正：
+  - 修复 `src/lib/news/eastmoney-fastnews.ts` 的类型收窄问题，保证生产构建通过
+- 验证：
+  - `npm run lint` 通过
+  - `npm run build` 通过
+- 同步更新：
+  - `plan.md` 中 Step 12-16 已全部打勾并补充完成摘要
+  - `README.md` 已补充 replay 架构与当前功能说明
